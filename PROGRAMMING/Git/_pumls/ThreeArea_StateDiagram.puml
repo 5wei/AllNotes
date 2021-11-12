@@ -1,0 +1,19 @@
+@startuml
+
+' 使用 git 绝大多数的操作就是 add 、 commit 和 checkout
+[*] --> WorkingDirectory
+WorkingDirectory: 工作区(Working Directory): 就是你电脑本地硬盘目录
+WorkingDirectory --> Stage: git add <filename | --all>
+Stage: 暂存区(stage): 工作区中 track 的文件，一般存放在"git 目录"下的index文件（.git/index）中，所以我们把暂存区有时也叫作索引（index）。
+Stage --> Repository: git commit -m "note"
+Repository: 本地库(Repository): 工作区有个隐藏目录.git，它就是Git的本地版本库
+Repository --> Repository: git reset --hard <版本(HEAD^ | HEAD~n | 具体版本号)>
+Repository --> [*]
+Repository --> WorkingDirectory: git checkout
+
+Stage --> WorkingDirectory: git rm --cache <filename>
+Stage --> WorkingDirectory: git restore --staged
+Stage --> WorkingDirectory: git reset <filename>
+' WorkingDirectory --> [*]: git restore <filename>\n 放弃工作区的变化
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+
+title File(s) States Diagram
+
+state "??" as untracked #red
+untracked: untracked
+state ignore
+
+state tracked {
+    state "_M" as working_phase_modified #red
+    working_phase_modified: working phase modified
+    state "MM" as two_phase_modified #red
+    two_phase_modified: stage phase modified and working phase modified
+    state "AM" as added_modified #red
+    added_modified: stage phase added and working phase modified
+    state "_D" as working_phase_deleted #red
+	state "AD" as added_deleted #red
+    state "A_" as stage_phase_added
+    stage_phase_added: stage phase added
+    state "M_" as stage_phase_modified
+    stage_phase_modified: stage phase modified
+    state "D_" as stage_phase_deleted
+    state "__" as clean
+    clean: working tree clean
+}
+
+[*] --> untracked: create new file in working directory
+untracked --> ignore: add file(s) to .gitignore file
+untracked --> stage_phase_added: $ git add <filename>
+stage_phase_added --> added_modified: modify tracked file in working directory
+stage_phase_modified --> two_phase_modified: modify tracked file in working directory
+added_modified --> stage_phase_added: $ git add <filename>
+two_phase_modified --> stage_phase_modified: $ git add <filename>
+stage_phase_modified --> clean: $ git commit -m "Story 182: fix ... for speed"
+stage_phase_added -left-> clean: $ git commit -m "Story 182: add ..."
+tracked --> clean: $ git commit -a -m "commit all tracked file(s)"
+clean --> working_phase_modified: modify tracked file in working directory
+working_phase_modified --> stage_phase_modified: $ git add <filename>
+working_phase_deleted --> stage_phase_deleted: $ git rm <filename>
+stage_phase_added --> added_deleted: delete tracked file in working directory
+added_deleted --> [*]: $ git rm <filename>
+
+@enduml

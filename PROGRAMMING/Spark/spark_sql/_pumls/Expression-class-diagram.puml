@@ -1,0 +1,33 @@
+@startuml
+title "Expression class diagram (version: spark 3.0)"
+
+class Column
+abstract class TreeNode {
+  -origin: Origin
+  -containsChild: Set[TreeNode[_]]
+  +children(): Seq[BaseType]
+  +fastEquals(other: TreeNode[_]): Boolean
+  +find(f: BaseType => Boolean): Option[BaseType]
+  etc.()
+}
+abstract class Expression {
+  -expr: Expression
+}
+abstract class QueryPlan
+abstract class InternalRow
+abstract class LeafExpression
+abstract class UnaryExpression
+abstract class BinaryExpression
+abstract class TernaryExpression
+abstract class BinaryOperator
+
+Expression --|> TreeNode
+QueryPlan --|> TreeNode
+Expression ..> InternalRow: evaluate
+Column --> Expression
+LeafExpression --|> Expression: an expression that has no child.
+UnaryExpression --|> Expression: an expression that has one child.
+BinaryExpression --|> Expression: an expression that has two children. 
+TernaryExpression --|> Expression: an expression that has three children.
+BinaryOperator --|> BinaryExpression: a special case of BinaryExpression that requires two children to have the same output data type.
+@enduml

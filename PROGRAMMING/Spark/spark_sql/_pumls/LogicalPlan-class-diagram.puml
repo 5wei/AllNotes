@@ -1,0 +1,48 @@
+@startuml
+title "LogicalPlan class diagram (version: spark 3.0)"
+
+abstract class TreeNode
+abstract class Expression
+abstract class QueryPlan
+abstract class LogicalPlan
+abstract class UnaryNode
+abstract class BinaryNode
+'' dataset.select
+class Project
+'' dataset.filter
+class Filter
+'' dataset.join
+class Join
+'' dataset.distinct
+class Deduplicate
+class Union
+abstract class RepartitionOperation
+'' dataset.coalesce  dataset.repartition
+class Repartition
+'' dataset.sort dataset.order
+class Sort
+'' dataset.explode
+class Generate
+'' dataset.alias dataset.as
+class SubqueryAlias
+interface ObjectConsumer
+class MapElements
+
+Expression --|> TreeNode
+QueryPlan --|> TreeNode
+LogicalPlan --|> QueryPlan
+UnaryNode --|> LogicalPlan
+BinaryNode --|> LogicalPlan
+Union --|> LogicalPlan
+Project --|> UnaryNode
+Filter --|> UnaryNode
+Deduplicate --|> UnaryNode
+Sort --|> UnaryNode
+Generate --|> UnaryNode
+ObjectConsumer --|> UnaryNode
+MapElements --|> ObjectConsumer
+Join --|> BinaryNode
+RepartitionOperation --|> UnaryNode
+Repartition --|> RepartitionOperation
+
+@enduml
