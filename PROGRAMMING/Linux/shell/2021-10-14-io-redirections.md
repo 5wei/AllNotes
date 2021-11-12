@@ -1,0 +1,1 @@
+# [Shell 输入/输出重定向](https://www.runoob.com/linux/linux-shell-io-redirections.html)

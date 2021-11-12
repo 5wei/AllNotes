@@ -1,0 +1,1 @@
+Ref. [Linux: Shell Lifecycle](https://divyendra.com/linux-shell-lifecycle/102/)
